@@ -1,0 +1,38 @@
+1- Connect to EC2 (Amazon Linux for this example)
+
+Launch an EC2 instances and keep the Key Pair to securely connect to your instance. 
+
+# Protects your private key so SSH refuses insecure keys 
+chmod 400 mykey.pem
+#Connect to your instance using the key for authentication. 
+ssh -i mykey.pem ec2-user@<ec2-public-ip> # ec2-user is usually the default user for EC2 instances. 
+
+---------------------------------------------------------------------------------------------------------------------
+
+2- Create groups
+
+groupadd is a command that helps to create new group accounts. 
+
+#For this examples the groups devops, developers & auditors. 
+sudo groupadd devops
+sudo groupadd developers
+sudo groupadd auditors
+
+---------------------------------------------------------------------------------------------------------------------
+
+3- Create users, their home directories and setup their shells. 
+
+# create alice in devops
+sudo useradd -m -s /bin/bash -G devops alice
+sudo passwd alice   
+
+# useradd -m creates a home directory for the new user /home/alice
+# s /bin/bash sets the login shell
+# -G adds the user to supplementary groups
+# passwd set an account password for authentication only and is not required if a key is used. 
+
+# create bob in developers
+sudo useradd -m -s /bin/bash -G developers bob
+sudo passwd bob
+
+----------------------------------------------------------------------------------------------------------------------
