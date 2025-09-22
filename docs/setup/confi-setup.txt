@@ -85,3 +85,13 @@ sudo setfactl -R -m g:devops:rwx /srv/projectA, setfacl -R -d -m g:devops:rwx /s
 
 7- Restric SSH logins with AllowGroups 
 
+#sshuser will allow the users inside this group to conect through SSH
+sudo groudadd -f sshuser
+sudo usermod -aG sshuser alice #Replace username with alic, bob, david or the user su prefer
+sudo usermod -aG sshuser bob
+
+#Add AllowGroup to sshd_config (append if missing)
+if ! sudo grep -q '^AllowGroups' /etc/ssh/sshd_config; then
+	echo "AllowGroups sshuser" | sudo tee -a /etc/ssh/sshd_config
+fi
+sudo systemctl restart sshd
